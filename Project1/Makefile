@@ -1,7 +1,7 @@
 CC := gcc
-CFLAGS := -I.
-DEPS = expr.h
-OBJECTS = expr.o main.o
+CFLAGS := -I. -lm
+DEPS = expr.h radix.h
+OBJECTS = expr.o radix.o main.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
