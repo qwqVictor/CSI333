@@ -3,8 +3,14 @@
 const char RADIX_TABLE[17] = "0123456789ABCDEF";
 
 int calc_rlen(int value, const int radix) {
-    return (value ? (ceil(log2f(value < 0 ? -value : value) / log2f(radix))
-                     + (value < 0 ? 1 : 0)) : 1) + 1;
+    int rlen = 1 + (value < 0 ? 1 : 0);
+    if (value > -2 && value < 2)
+        rlen += 1;
+    else {
+        float f = log2f(value < 0 ? -value : value) / log2f(radix);
+        rlen += f + 1;
+    }
+    return rlen;
 }
 
 int radix_conv(int value, const int radix, char* buffer, const int len) {
