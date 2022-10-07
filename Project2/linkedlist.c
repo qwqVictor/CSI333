@@ -31,6 +31,7 @@ LinkedListErrorType llInsertAfter(LinkedList* list, char* text, int len, int ind
     }
     node = llNewList();
     node->index = target->index + 1;
+    strncpy(node->text, text, len);
     if (target->next != NULL) {
         node->next = target->next;
         int newIndex = node->index + 1;
@@ -57,6 +58,7 @@ LinkedListErrorType llInsertBefore(LinkedList* list, char* text, int len, int in
     }
     node = llNewList();
     node->index = target->index + 1;
+    strncpy(node->text, text, len);
     if (target->next != NULL) {
         node->next = target->next;
         int newIndex = node->index + 1;
@@ -69,27 +71,46 @@ LinkedListErrorType llInsertBefore(LinkedList* list, char* text, int len, int in
 }
 
 LinkedListErrorType llDelete(LinkedList* list, int index) {
-    LinkedList* target = llFindIndex(list, index);
-    if (target->next == NULL) {
+    LinkedList* prev = llFindIndex(list, index);
+    if (prev->next == NULL) {
         return UNCHANGED;
     }
     else {
-        LinkedList* toBeDeleted = target->next;
-        target->next = toBeDeleted->next;
+        LinkedList* toBeDeleted = prev->next;
+        prev->next = toBeDeleted->next;
         free((void*)toBeDeleted);
-        int newIndex = target->index + 1;
-        for (LinkedList* i = target->next; i != NULL; i = i->next)
+        int newIndex = prev->index + 1;
+        for (LinkedList* i = prev->next; i != NULL; i = i->next)
             i->index = newIndex++;
     }
     return OPERATION_OK;
 }
 
 LinkedListErrorType llReplace(LinkedList* list, char* text, int len, int index) {
-
+    LinkedList* prev = llFindIndex(list, index);
+    if (prev->next == NULL)
+        return UNCHANGED;
+    LinkedList* target = prev->next;
+    if (strlen(target->text) == len && (!strncmp(text, target->text, len)))
+        return UNCHANGED;
+    LinkedList* node = llNewList();
+    node->next = target->next;
+    node->index = target->index;
+    strncpy(node->text, text, len);
+    free((void*)target);
     return OPERATION_OK;
 }
 
 LinkedListErrorType llPrint(LinkedList* list, FILE* stream, const char* emptyMessage) {
-
+    if (list->next != NULL) {
+        for (LinkedList* i = list->next; i != NULL; i = i->next) {
+            if (i != list->next)
+                fprintf(stream, ", ");
+            fprintf(stream, "'%s'", i->text);
+        }
+        fputc('\n', stream);
+    }
+    else
+        fputs(emptyMessage, stream)
     return OPERATION_OK;
 }
