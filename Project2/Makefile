@@ -1,7 +1,7 @@
 CC := gcc
 CFLAGS := -I. -lm
 DEPS = linkedlist.h
-OBJECTS = expr.o linkedlist.o
+OBJECTS = linkedlist.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
