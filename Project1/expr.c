@@ -1,3 +1,9 @@
+/**
+ * Author: Huang Kaisheng <2020215138@stu.cqupt.edu.cn>
+ * Description: Implementation of expression evaluation
+ * Version: 2022/10/07
+ */
+
 #include "expr.h"
 int eval_expr(const char* expr, const int len) {
     int lvalue = 0, rvalue = 0;

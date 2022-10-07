@@ -1,3 +1,8 @@
+/**
+ * Author: Huang Kaisheng <2020215138@stu.cqupt.edu.cn>
+ * Description: Implementation of radix conversion
+ * Version: 2022/10/07
+ */
 #include "radix.h"
 
 const char RADIX_TABLE[17] = "0123456789ABCDEF";

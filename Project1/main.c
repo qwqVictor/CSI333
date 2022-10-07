@@ -1,3 +1,8 @@
+/**
+ * Author: Huang Kaisheng <2020215138@stu.cqupt.edu.cn>
+ * Description: Entrypoint of program
+ * Version: 2022/10/07
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
