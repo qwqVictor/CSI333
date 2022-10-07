@@ -22,8 +22,6 @@ typedef enum {
     OUT_OF_BOUND
 } LinkedListErrorType;
 
-const char *EMPTY_LIST_MESSAGE = "Empty list!";
-
 LinkedList* llNewList();
 LinkedListErrorType llInsertAfter(LinkedList *list, char *text, int len, int index);
 LinkedListErrorType llInsertBefore(LinkedList *list, char *text, int len, int index);

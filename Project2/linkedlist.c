@@ -2,7 +2,7 @@
 
 LinkedList* llFindIndex(LinkedList* list, int index) {
     LinkedList* p = list;
-    for (; p != NULL; p = p->next) {
+    for (; p->next != NULL; p = p->next) {
         if (p->next != NULL && (p->next)->index == index)
             return p;
     }
@@ -26,9 +26,9 @@ LinkedListErrorType llInsertAfter(LinkedList* list, char* text, int len, int ind
         ret = INSERTED_AT_BORDER;
         target = prev;
     }
-    if (strlen(target->text) == len && (!strncmp(text, target->text, len))) {
-        return INSERTION_DUPLICATE;
-    }
+    for (LinkedList* i = list->next; i != NULL; i = i->next)
+        if (strlen(i->text) == len && (!strncmp(text, i->text, len)))
+            return INSERTION_DUPLICATE;
     node = llNewList();
     node->index = target->index + 1;
     strncpy(node->text, text, len);
@@ -40,6 +40,7 @@ LinkedListErrorType llInsertAfter(LinkedList* list, char* text, int len, int ind
     } else {
         node->next = NULL;
     }
+    target->next = node;
     return ret;
 }
 
@@ -53,9 +54,9 @@ LinkedListErrorType llInsertBefore(LinkedList* list, char* text, int len, int in
     else {
         target = prev;
     }
-    if (strlen(target->text) == len && (!strncmp(text, target->text, len))) {
-        return INSERTION_DUPLICATE;
-    }
+    for (LinkedList* i = list->next; i != NULL; i = i->next)
+        if (strlen(i->text) == len && (!strncmp(text, i->text, len)))
+            return INSERTION_DUPLICATE;
     node = llNewList();
     node->index = target->index + 1;
     strncpy(node->text, text, len);
@@ -67,6 +68,7 @@ LinkedListErrorType llInsertBefore(LinkedList* list, char* text, int len, int in
     } else {
         node->next = NULL;
     }
+    target->next = node;
     return ret;
 }
 
@@ -91,13 +93,15 @@ LinkedListErrorType llReplace(LinkedList* list, char* text, int len, int index) 
     if (prev->next == NULL)
         return UNCHANGED;
     LinkedList* target = prev->next;
-    if (strlen(target->text) == len && (!strncmp(text, target->text, len)))
-        return UNCHANGED;
+    for (LinkedList* i = list->next; i != NULL; i = i->next)
+        if (strlen(i->text) == len && (!strncmp(text, i->text, len)))
+            return UNCHANGED;
     LinkedList* node = llNewList();
     node->next = target->next;
     node->index = target->index;
     strncpy(node->text, text, len);
     free((void*)target);
+    prev->next = node;
     return OPERATION_OK;
 }
 
@@ -111,6 +115,6 @@ LinkedListErrorType llPrint(LinkedList* list, FILE* stream, const char* emptyMes
         fputc('\n', stream);
     }
     else
-        fputs(emptyMessage, stream)
+        fprintf(stream, "%s\n", emptyMessage);
     return OPERATION_OK;
 }
