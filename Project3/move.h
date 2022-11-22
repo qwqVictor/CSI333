@@ -5,6 +5,7 @@
  */
 #ifndef HUANGKAISHENG_MOVE_H
 #define HUANGKAISHENG_MOVE_H
+#include "util.h"
 
 int move_main(int argc, char const* argv[]);
 

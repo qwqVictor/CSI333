@@ -10,10 +10,17 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <string.h>
+#include <errno.h>
 
-char* argv0 = NULL;
+#define hks_errorf(template, ...) (fprintf(stderr, "%s: " template "\n", argv0, ##__VA_ARGS__))
+#define hks_perror() (perror(argv0))
 
-void hks_perror(const char* message);
-void hks_perror();
+#ifndef PATH_MAX
+#define PATH_MAX (pathconf("/", _PC_PATH_MAX))
+#endif
+
+char* hks_basename(const char* path);
+unsigned char hks_ask_for_overwrite(const char* path);
 
 #endif // !HUANGKAISHENG_UTIL_H

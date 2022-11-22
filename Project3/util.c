@@ -5,10 +5,17 @@
  */
 #include "util.h"
 
-void hks_perror(const char* message) {
-    fprintf(stderr, "%s: %s", argv0, message);
+char* hks_basename(const char* path) {
+    char* rchr = strrchr(path, '/');
+    return (rchr == NULL) ? path : rchr + 1;
 }
 
-void hks_perror() {
-    perror(argv0);
+unsigned char hks_ask_for_overwrite(const char* path) {
+    FILE* fp = fopen("/dev/tty", "rw");
+    if (fp == NULL)
+        return 0;
+    fprintf(fp, "Path '%s' exists. Overwrite? [y/n]", path);
+    int c = fgetc(fp);
+    fclose(fp);
+    return c == 'y';
 }

@@ -8,7 +8,6 @@
 #include "copy.h"
 #include "move.h"
 #include "util.h"
-#include <string.h>
 
 #define MODE_COPY_ARGV0 "copy"
 #define MODE_MOVE_ARGV0 "move"

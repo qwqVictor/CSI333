@@ -9,8 +9,9 @@ OBJECTS = main.o util.o copy.o move.o
 main: $(OBJECTS)
 	$(CC) -o $@ $^ $(CFLAGS)
 	mkdir -p bin
-	ln main bin/copy bin/move
+	ln -f main bin/copy
+	ln -f main bin/move
 
 .PHONY: clean
 clean: 
-	rm -f $(OBJECTS) main bin
+	rm -rf $(OBJECTS) main bin
